@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
+
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+
+    <Version>1.0</Version>
+
+    <Title>Better Serial</Title>
+    <Description>Wrappers for handling Serial Ports in an efficient, safe manner.</Description>
+    <ProjectUrl>https://github.com/malacandrian/SerialPortWrapper</ProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IO.Ports" Version="5.0.1" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Configuration>Debug</Configuration>
+    <PackageOutputPath>../Packages/Debug</PackageOutputPath>
+    <IncludeSymbols>true</IncludeSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Configuration>Release</Configuration>
+    <PackageOutputPath>../Packages/Release</PackageOutputPath>
+  </PropertyGroup>
+
+
+</Project>
