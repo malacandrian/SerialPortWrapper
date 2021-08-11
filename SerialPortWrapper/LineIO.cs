@@ -28,6 +28,9 @@ namespace BetterSerial
 
         private bool AutoStartLine => !LineStart.HasValue;
 
+        /// <summary>
+        /// Whether the LineIO is currently active and able to Read/Write
+        /// </summary>
         public bool IsOpen { get; private set; }
 
         /// <summary>
@@ -163,6 +166,7 @@ namespace BetterSerial
             }
         }
 
+        /// <inheritdoc />
         ~LineIO()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
