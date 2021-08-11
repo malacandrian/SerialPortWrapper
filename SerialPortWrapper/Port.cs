@@ -9,7 +9,7 @@ namespace BetterSerial
     /// A Wrapper for <see cref="SerialPort"/> that only exposes the members listed as safe by 
     /// Ben Voigt here: https://www.sparxeng.com/blog/software/must-use-net-system-io-ports-serialport
     /// </summary>
-    public class Port
+    public sealed class Port
     {
         private readonly SerialPort basePort;
 

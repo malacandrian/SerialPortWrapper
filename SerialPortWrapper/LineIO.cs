@@ -11,7 +11,7 @@ namespace BetterSerial
     /// <summary>
     /// Performs asynchronous line-by-line communication over a <see cref="Stream"/>
     /// </summary>
-    public class LineIO : IDisposable, IAsyncDisposable
+    public sealed class LineIO : IDisposable, IAsyncDisposable
     {
         private readonly Stream Stream;
         private readonly StreamWriter Writer;
