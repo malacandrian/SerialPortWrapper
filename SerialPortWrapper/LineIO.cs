@@ -143,7 +143,8 @@ namespace BetterSerial
         }
 
         #region Dispose
-        protected async virtual void Dispose(bool disposing) => await DisposeAsync(disposing: disposing);
+
+        private void Dispose(bool disposing) => Task.Run(async () => await DisposeAsync(disposing: disposing));
 
         ///<inheritdoc />
         public ValueTask DisposeAsync() => DisposeAsync(disposing: true);
