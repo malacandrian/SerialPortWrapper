@@ -94,6 +94,12 @@ namespace BetterSerial
         }
         #endregion
 
+        /// <summary>
+        /// Create a new <see cref="Port"/> for a specific Port Name
+        /// </summary>
+        /// <param name="name">The name of the port (the same as would be used for <see cref="SerialPort.PortName"/>)</param>
+        /// <param name="createSerial">Delegate for converting <paramref name="createSerial"/> to a <see cref="SerialPort"/>.
+        /// Default is to use the <see cref="SerialPort"/> constructor.</param>
         public Port(string name, Func<string, SerialPort>? createSerial = default)
         {
             basePort = createSerial?.Invoke(name) ?? new SerialPort(name);
