@@ -28,6 +28,8 @@ namespace BetterSerial
 
         private bool AutoStartLine => !LineStart.HasValue;
 
+        public bool IsOpen { get; private set; }
+
         /// <summary>
         /// Wrap a <see cref="Stream"/> for asynchronous line-by-line communication
         /// </summary>
@@ -49,6 +51,8 @@ namespace BetterSerial
             LineBuilder = new();
 
             LineActive = AutoStartLine;
+
+            IsOpen = true;
 
             Task.Run(Scan);
         }
@@ -154,6 +158,7 @@ namespace BetterSerial
                 }
 
                 disposedValue = true;
+                IsOpen = false;
             }
         }
 
