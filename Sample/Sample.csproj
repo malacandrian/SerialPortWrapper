@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SerialPortWrapper\SerialPortWrapper.csproj" />
+    <ProjectReference Include="..\SerialPortWrapper\BetterSerial.csproj" />
   </ItemGroup>
 
 </Project>

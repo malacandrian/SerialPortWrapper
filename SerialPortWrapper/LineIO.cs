@@ -74,7 +74,7 @@ namespace BetterSerial
 
         private async void Scan()
         {
-            while (true)
+            while (IsOpen)
             {
                 try
                 {
@@ -101,22 +101,32 @@ namespace BetterSerial
                     }
 
                 }
+                catch (UnauthorizedAccessException)
+                {
+                    // The stream is no longer available
+                    // e.g. COM Port unplugged
+                    // Stop checking for new messages
+                    break;
+                }
                 catch (OperationCanceledException)
                 {
-                    // The Channel closed while waiting for a message
+                    // The Stream closed while waiting for a message
                     // Stop checking for new messages
                     break;
                 }
                 catch (InvalidOperationException)
                 {
-                    // The Channel closed in between checking IsActive and
+                    // The Stream closed in between checking IsOpen and
                     // trying to read the next line
                     // Stop checking for new messages
                     break;
                 }
+                
             }
 
-            await DisposeAsync();
+            // If scanning has failed, but the object hasn't been disposed,
+            // Dispose the object
+            if(IsOpen) { await DisposeAsync(); }
         }
         #endregion
 
@@ -147,7 +157,7 @@ namespace BetterSerial
 
         #region Dispose
 
-        private void Dispose(bool disposing) => Task.Run(async () => await DisposeAsync(disposing: disposing));
+        private void Dispose(bool disposing) => Task.Run(async () => await DisposeAsync(disposing: disposing)).Wait();
 
         ///<inheritdoc />
         public ValueTask DisposeAsync() => DisposeAsync(disposing: true);
@@ -158,7 +168,15 @@ namespace BetterSerial
             {
                 if (disposing)
                 {
-                    await Stream.DisposeAsync();
+                    try
+                    {
+                        await Stream.DisposeAsync();
+                    } catch (UnauthorizedAccessException)
+                    {
+                        // The device is unplugged, therefore the stream is gone
+                        // Do nothing
+                    }
+                    
                 }
 
                 disposedValue = true;
