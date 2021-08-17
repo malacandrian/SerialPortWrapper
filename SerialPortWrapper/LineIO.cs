@@ -14,6 +14,7 @@ namespace BetterSerial
     public sealed class LineIO : IDisposable, IAsyncDisposable
     {
         private readonly Stream Stream;
+        private readonly Func<ValueTask> CloseStream;
         private readonly StreamWriter Writer;
         private readonly StreamReader Reader;
         private readonly char[] ReadBuffer;
@@ -41,9 +42,11 @@ namespace BetterSerial
         /// <param name="lineStart">The character that marks the start of the line (or null, if there isn't one)</param>
         /// <param name="bufferSize">The maximum number of characters to read from the stream at once.
         /// This can be shorter than the expected line length.</param>
-        public LineIO(Stream stream, char lineEnd, char? lineStart = null, int bufferSize = 10)
+        /// <param name="closeStream">Close the Stream. Defaults to <see cref="Stream.DisposeAsync()"/></param>
+        public LineIO(Stream stream, char lineEnd, char? lineStart = null, int bufferSize = 10, Func<ValueTask>? closeStream = null)
         {
             Stream = stream;
+            CloseStream = closeStream ?? Stream.DisposeAsync;
             Writer = new StreamWriter(Stream);
             Reader = new StreamReader(Stream);
             ReadBuffer = new char[bufferSize];
@@ -170,12 +173,12 @@ namespace BetterSerial
                 {
                     try
                     {
-                        await Stream.DisposeAsync();
+                        await CloseStream();
                     } catch (UnauthorizedAccessException)
                     {
                         // The device is unplugged, therefore the stream is gone
                         // Do nothing
-                    }
+                    } 
                     
                 }
 

@@ -2,6 +2,7 @@
 using System.IO;
 using System.IO.Ports;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BetterSerial
 {
@@ -123,6 +124,17 @@ namespace BetterSerial
             }
 
             throw new InvalidOperationException("Port is already open");
+        }
+
+        /// <summary>
+        /// Close the port
+        /// </summary>
+        public void Close()
+        {
+            if(IsOpen)
+            {
+                basePort.Close();
+            }
         }
     }
 }
