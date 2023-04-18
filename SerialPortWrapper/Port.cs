@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.IO.Ports;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BetterSerial
 {
