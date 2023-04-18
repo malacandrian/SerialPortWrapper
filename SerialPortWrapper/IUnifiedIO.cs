@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 
 namespace BetterSerial
@@ -7,8 +6,8 @@ namespace BetterSerial
     ///<details>A disparate asynchronous communication method is one
     ///where transmission and response happen on seperate methods/events.
     ///<see ref="IUnifiedLineIO" /> sends and receives on the same method.</details>
-    interface IUnifiedLineIO : IDisposable {
+    public interface IUnifiedIO<T> {
         ///<summary>Asynchronously send a line and receive a response.</summary>
-        Task<string> Exchange(string toSend);
+        Task<T> Exchange(T toSend);
     }
 }
