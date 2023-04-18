@@ -74,6 +74,9 @@ namespace BetterSerial
             return ReadBuffer.Take(count);
         }
 
+        private bool IsStartOfLine(char c) => !LineActive && c == LineStart;
+        private bool IsEndOfLine(char c) => LineActive && c == LineEnd;
+
         private async void Scan()
         {
             while (IsOpen)
@@ -82,11 +85,11 @@ namespace BetterSerial
                 {
                     foreach (var c in await GetChars())
                     {
-                        if (!LineActive && c == LineStart) // Start of line detected
+                        if (IsStartOfLine(c))
                         {
                             LineActive = true;
                         }
-                        else if (LineActive && c == LineEnd) // End of line detected
+                        else if (IsEndOfLine(c))
                         {
                             // Publish the completed line
                             LineReceived?.Invoke(LineBuilder.ToString());
